@@ -45,16 +45,17 @@ def ceder_paso(autopista: DoublyLinkedList):
 
 
 Autopista = DoublyLinkedList()
-v1 = Vehiculo("ABC123", "auto", 3)
-v2 = Vehiculo("ASH543", "moto", 2)
-v3 = Vehiculo("HGF789", "moto", 1)
-v4 = Vehiculo("EML395", "moto", 1)
-v5 = Vehiculo("EKJ527", "camion", 5)
-insertar_vehiculos(Autopista, v1)
-insertar_vehiculos(Autopista, v2)
-insertar_vehiculos(Autopista, v3)
-insertar_vehiculos(Autopista, v4)
-insertar_vehiculos(Autopista, v5)
+vehiculos = (
+    Vehiculo("ABC123", "auto", 3),
+    Vehiculo("ASH543", "moto", 2),
+    Vehiculo("HGF789", "moto", 1),
+    Vehiculo("EML395", "moto", 1),
+    Vehiculo("EKJ527", "camion", 5)
+)
+
+for v in vehiculos:
+    insertar_vehiculos(Autopista, v)
+
 print(Autopista)
 ceder_paso(Autopista)
 print(Autopista)
