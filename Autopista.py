@@ -46,6 +46,30 @@ def ceder_paso(autopista: DoublyLinkedList):
     return
 
 
+def eliminar_camiones(autopista: DoublyLinkedList):
+    actual = autopista.head
+
+    while actual:
+        if actual.value.tipo == "camion" and actual.value.prioridad > 3:
+            if actual.prev:
+                actual.prev.next = actual.next
+            else:
+                autopista.head = actual.next
+
+            if actual.next:
+                actual.next.prev = actual.prev
+
+            else:
+                autopista.tail = actual.prev
+
+            actual.next = None
+            actual.prev = None
+        
+        actual = actual.next
+
+    return autopista
+
+
 def accidente(autopista: DoublyLinkedList, placa_inicio, placa_final):
     actual = autopista.head
 
@@ -107,9 +131,13 @@ def invertir_orden(autopista: DoublyLinkedList):
         if autopista.tail:
             autopista.tail.next = None
         
-        print(f"nueva cola {autopista.tail}")
-        print(f"nueva cabeza {autopista.head}")
+        print(f"nueva cola: {autopista.tail}")
+        print(f"nueva cabeza: {autopista.head}")
     return
+
+
+def reordenar_prioridad(autopista: DoublyLinkedList):
+    ...
     
 
 autopista = DoublyLinkedList()
@@ -117,11 +145,12 @@ vehiculos = (
     Vehiculo("ABC 123", "auto", 3),
     Vehiculo("ASH 543", "camion", 2),
     Vehiculo("EML 395", "moto", 1),
-    Vehiculo("PKJ 527", "camion", 5),
+    Vehiculo("PKJ 527", "camion", 3),
     Vehiculo("ENS 245", "moto", 4),
     Vehiculo("HGF 789", "moto", 1),
     Vehiculo("NEW 347", "auto", 5),
-    Vehiculo("NKE 893", "auto", 3)
+    Vehiculo("NKE 893", "auto", 3),
+    Vehiculo("WKL 657", "camion", 4)
 )
 
 for v in vehiculos:
@@ -129,12 +158,19 @@ for v in vehiculos:
 
 print("\n---------------------- AUTOPISTA INICIAL ----------------------")
 print(autopista)
+
 print("\n----------- CEDER PASO A MOTOCICLISTAS CON PRIORIDAD -----------")
 ceder_paso(autopista)
 print(autopista)
+
+print("\n----------- ELIMINAR CAMIONES CON BAJA PRIORIDAD -----------")
+eliminar_camiones(autopista)
+print(autopista)
+
 print("\n-------------- 💥 ACCIDENTE ENTRE DOS VEHICULOS 💥 --------------")
 accidente(autopista, "ASH 543", "ENS 245")
 print(autopista)
+
 print("\n------------------------ INVERTIR VIA ------------------------")
 invertir_orden(autopista)
 print(autopista)
