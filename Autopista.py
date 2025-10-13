@@ -7,7 +7,13 @@ class Vehiculo:
         self.prioridad = prioridad
 
     def __str__(self):
-        return f"{self.tipo} |{self.placa}| ({self.prioridad})"
+        if self.tipo == "moto":
+            rep = "🏍️"
+        if self.tipo == "auto":
+            rep = "🚙"
+        if self.tipo == "camion":
+            rep = "🚚"
+        return f"{rep} |{self.placa}|({self.prioridad})"
 
 
 def insertar_vehiculos(autopista: DoublyLinkedList, vehiculo):
@@ -19,14 +25,10 @@ def ceder_paso(autopista: DoublyLinkedList):
         return
     
     cursor = autopista.head
-    preferencial = 1
 
     while cursor:
         siguiente = cursor.next
-        if cursor != autopista.head and cursor.value.tipo == "moto":
-
-            if cursor.value.prioridad != preferencial:
-                siguiente = cursor
+        if cursor != autopista.head and cursor.value.tipo == "moto" and cursor.value.prioridad == 1:
 
             if cursor.prev:
                 cursor.prev.next = cursor.next
@@ -66,7 +68,7 @@ def accidente(autopista: DoublyLinkedList, placa_inicio, placa_final):
     accidentado2.prev.next = accidentado2.next
     accidentado2.next.prev = accidentado2.prev
 
-    print(accidentado1, accidentado2)
+    print(f"💥 accidente entre los vehiculos {accidentado1} - {accidentado2} 💥")
     return 
     
 
@@ -74,10 +76,10 @@ autopista = DoublyLinkedList()
 vehiculos = (
     Vehiculo("ABC 123", "auto", 3),
     Vehiculo("ASH 543", "camion", 2),
-    Vehiculo("HGF 789", "moto", 1),
     Vehiculo("EML 395", "moto", 1),
-    Vehiculo("EKJ 527", "camion", 5),
+    Vehiculo("PKJ 527", "camion", 5),
     Vehiculo("ENS 245", "moto", 4),
+    Vehiculo("HGF 789", "moto", 1),
     Vehiculo("NEW 347", "auto", 5),
     Vehiculo("NKE 893", "auto", 3)
 )
@@ -85,8 +87,11 @@ vehiculos = (
 for v in vehiculos:
     insertar_vehiculos(autopista, v)
 
+print("\n---------------------- AUTOPISTA INICIAL ----------------------")
 print(autopista)
-#ceder_paso(autopista)
-#print(autopista)
-accidente(autopista, "ASH 543", "EML 395")
+print("\n----------- CEDER PASO A MOTOCICLISTAS CON PRIORIDAD -----------")
+ceder_paso(autopista)
+print(autopista)
+print("\n-------------- 💥 ACCIDENTE ENTRE DOS VEHICULOS 💥 --------------")
+accidente(autopista, "ASH 543", "ENS 245")
 print(autopista)
