@@ -77,7 +77,9 @@ vehiculos = (
     Vehiculo("HGF 789", "moto", 1),
     Vehiculo("EML 395", "moto", 1),
     Vehiculo("EKJ 527", "camion", 5),
-    Vehiculo("ENS 245", "moto", 2)
+    Vehiculo("ENS 245", "moto", 4),
+    Vehiculo("NEW 347", "auto", 5),
+    Vehiculo("NKE 893", "auto", 3)
 )
 
 for v in vehiculos:
