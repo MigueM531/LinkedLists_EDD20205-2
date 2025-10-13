@@ -70,6 +70,46 @@ def accidente(autopista: DoublyLinkedList, placa_inicio, placa_final):
 
     print(f"💥 accidente entre los vehiculos {accidentado1} - {accidentado2} 💥")
     return 
+
+def invertir_orden(autopista: DoublyLinkedList):
+    actual = autopista.head
+    cont_autos = 0
+    cont_motos = 0
+
+    while actual:
+        if actual.value.tipo == "auto":
+            cont_autos += 1
+        if actual.value.tipo == "moto":
+            cont_motos += 1
+        actual = actual.next
+
+    if cont_motos >= cont_autos:
+        return "Hay mas motos que autos, no se invierte la vía"
+    
+    elif cont_motos < cont_autos:
+        actual = autopista.head
+        autopista.tail = autopista.head  # la antigua cabeza será la nueva cola
+        nueva_cabeza = None
+
+        while actual:
+            siguiente = actual.next
+
+            actual.next = actual.prev
+            actual.prev = siguiente
+
+            nueva_cabeza = actual
+
+            actual = siguiente
+
+        autopista.head = nueva_cabeza
+        if autopista.head:
+            autopista.head.prev = None
+        if autopista.tail:
+            autopista.tail.next = None
+        
+        print(f"nueva cola {autopista.tail}")
+        print(f"nueva cabeza {autopista.head}")
+    return
     
 
 autopista = DoublyLinkedList()
@@ -94,4 +134,7 @@ ceder_paso(autopista)
 print(autopista)
 print("\n-------------- 💥 ACCIDENTE ENTRE DOS VEHICULOS 💥 --------------")
 accidente(autopista, "ASH 543", "ENS 245")
+print(autopista)
+print("\n------------------------ INVERTIR VIA ------------------------")
+invertir_orden(autopista)
 print(autopista)
