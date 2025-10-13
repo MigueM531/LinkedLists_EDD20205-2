@@ -24,24 +24,24 @@ def ceder_paso(autopista: DoublyLinkedList):
     if not autopista.head:
         return
     
-    cursor = autopista.head
+    actual = autopista.head
 
-    while cursor:
-        siguiente = cursor.next
-        if cursor != autopista.head and cursor.value.tipo == "moto" and cursor.value.prioridad == 1:
+    while actual:
+        siguiente = actual.next
+        if actual != autopista.head and actual.value.tipo == "moto" and actual.value.prioridad == 1:
 
-            if cursor.prev:
-                cursor.prev.next = cursor.next
-            if cursor.next:
-                cursor.next.prev = cursor.prev
+            if actual.prev:
+                actual.prev.next = actual.next
+            if actual.next:
+                actual.next.prev = actual.prev
             else:
-                autopista.tail = cursor.prev
+                autopista.tail = actual.prev
 
-            cursor.prev = None
-            cursor.next = autopista.head
-            autopista.head.prev = cursor
-            autopista.head = cursor
-        cursor = siguiente
+            actual.prev = None
+            actual.next = autopista.head
+            autopista.head.prev = actual
+            autopista.head = actual
+        actual = siguiente
     
     return
 
@@ -95,6 +95,7 @@ def accidente(autopista: DoublyLinkedList, placa_inicio, placa_final):
     print(f"💥 accidente entre los vehiculos {accidentado1} - {accidentado2} 💥")
     return 
 
+
 def invertir_orden(autopista: DoublyLinkedList):
     actual = autopista.head
     cont_autos = 0
@@ -137,12 +138,44 @@ def invertir_orden(autopista: DoublyLinkedList):
 
 
 def reordenar_prioridad(autopista: DoublyLinkedList):
-    ...
+    actual = autopista.head.next
+
+    while actual:
+        siguiente = actual.next
+        mover = actual
+        comparar = actual.prev
+
+        mover.prev.next = mover.next
+        if mover.next:
+            mover.next.prev = mover.prev
+        else:
+            autopista.tail = mover.prev
+
+        while comparar and mover.value.prioridad < comparar.value.prioridad:
+            comparar = comparar.prev
+        
+        if comparar is None:
+            mover.next = autopista.head
+            autopista.head.prev = mover
+            mover.prev = None
+            autopista.head = mover
+        else:
+            mover.next = comparar.next
+            mover.prev = comparar
+            if comparar.next:
+                comparar.next.prev = mover
+            else:
+                autopista.tail = mover
+            comparar.next = mover
+
+        actual = siguiente
+        
     
+
 
 autopista = DoublyLinkedList()
 vehiculos = (
-    Vehiculo("ABC 123", "auto", 3),
+    Vehiculo("ABC 123", "auto", 2),
     Vehiculo("ASH 543", "camion", 2),
     Vehiculo("EML 395", "moto", 1),
     Vehiculo("PKJ 527", "camion", 3),
@@ -150,7 +183,8 @@ vehiculos = (
     Vehiculo("HGF 789", "moto", 1),
     Vehiculo("NEW 347", "auto", 5),
     Vehiculo("NKE 893", "auto", 3),
-    Vehiculo("WKL 657", "camion", 4)
+    Vehiculo("WKL 657", "camion", 4),
+    Vehiculo("OIW 286", "camion", 3)
 )
 
 for v in vehiculos:
@@ -173,4 +207,8 @@ print(autopista)
 
 print("\n------------------------ INVERTIR VIA ------------------------")
 invertir_orden(autopista)
+print(autopista)
+
+print("\n------------------------ REORDENAR PRIORIDAD ------------------------")
+reordenar_prioridad(autopista)
 print(autopista)
