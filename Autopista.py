@@ -107,7 +107,7 @@ def invertir_orden(autopista: DoublyLinkedList):
     
     elif cont_motos < cont_autos:
         actual = autopista.head
-        autopista.tail = autopista.head  # la antigua cabeza será la nueva cola
+        autopista.tail = autopista.head 
         nueva_cabeza = None
 
         while actual:
