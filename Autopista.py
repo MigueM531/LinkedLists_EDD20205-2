@@ -86,12 +86,6 @@ def accidente(autopista: DoublyLinkedList, placa_inicio, placa_final):
         actual.next.prev = actual.prev
         actual = actual.next
 
-    accidentado1.prev.next = accidentado1.next
-    accidentado1.next.prev = accidentado1.prev
-
-    accidentado2.prev.next = accidentado2.next
-    accidentado2.next.prev = accidentado2.prev
-
     print(f"💥 accidente entre los vehiculos {accidentado1} - {accidentado2} 💥")
     return 
 
